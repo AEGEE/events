@@ -136,7 +136,7 @@ describe('Events status change', () => {
             expect(res.body).toHaveProperty('message');
 
             const eventFromDb = await Event.findByPk(event.id);
-            expect(eventFromDb.publication_date).toBeNull;
+            expect(eventFromDb.publication_date).toBeNull();
         });
     });
 
@@ -247,7 +247,7 @@ describe('Events status change', () => {
             expect(res.body).toHaveProperty('message');
 
             const eventFromDb = await Event.findByPk(event.id);
-            expect(eventFromDb.publication_date).not.toBeNull;
+            expect(eventFromDb.publication_date).not.toBeNull();
         });
     });
 
