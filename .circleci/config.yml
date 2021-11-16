@@ -34,7 +34,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.7
-      - run: docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml build --no-cache statutory
+      - run: docker-compose -f docker/docker-compose.yml -f docker/docker-compose.dev.yml build --no-cache events
   eslint:
     docker:
       - image: cimg/node:16.13.0
@@ -117,10 +117,10 @@ jobs:
       - node/install-packages
       - run: npx semantic-release
       - run: echo export PACKAGE_VERSION=$(node -p "require('./package.json').version") >> $BASH_ENV
-      - run: docker build --tag aegee/statutory:$PACKAGE_VERSION --tag aegee/statutory:latest -f docker/statutory/Dockerfile .
+      - run: docker build --tag aegee/events:$PACKAGE_VERSION --tag aegee/events:latest -f docker/events/Dockerfile .
       - run: docker login --username $DOCKER_LOGIN --password $DOCKER_PASSWORD
-      - run: docker push aegee/statutory:$PACKAGE_VERSION
-      - run: docker push aegee/statutory:latest
+      - run: docker push aegee/events:$PACKAGE_VERSION
+      - run: docker push aegee/events:latest
       - slack/notify:
           event: pass
           custom: |
