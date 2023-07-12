@@ -90,7 +90,7 @@ describe('File upload', () => {
         expect(res.statusCode).toEqual(422);
 
         expect(res.body.success).toEqual(false);
-        expect(res.body).toHaveProperty('message');
+        expect(res.body.message).toEqual('No head_image is specified.');
     });
 
     it('should upload a file if it\'s valid', async () => {
