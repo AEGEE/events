@@ -56,6 +56,7 @@ const Application = sequelize.define('application', {
             notEmpty: { msg: 'Last name should be set.' }
         }
     },
+    // TODO: this should become the notification_email fetched from core
     email: {
         allowNull: false,
         type: Sequelize.STRING,

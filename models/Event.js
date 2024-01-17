@@ -259,6 +259,7 @@ const Event = sequelize.define(
                             throw new Error('comment is malformed.');
                         }
 
+                        // TODO: this should be the notification_email fetched from core. Can be kept empty in here I think. When sending emails from events it's already using notification_email
                         if (typeof organizer.email !== 'undefined' && typeof organizer.email !== 'string') {
                             throw new Error('email is malformed.');
                         }
