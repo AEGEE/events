@@ -402,17 +402,17 @@ describe('Events listing', () => {
         expect(res.body.success).toEqual(true);
         expect(res.body).toHaveProperty('data');
         expect(res.body.data.length).toEqual(1);
-        expect(res.body.data[0].latest_event).toEqual(mostRecentEvent.starts);
+        expect(res.body.data[0].latest_event).toEqual(mostRecentEvent.starts.toString());
     });
 
     it('should not list most recent events in the future', async () => {
         const previousEvent = await generator.createEvent({
             status: 'published',
             organizing_bodies: [{ body_id: 1, body_name: 'blabla' }],
-            application_starts: moment().subtract(10, 'days').toDate(),
-            application_ends: moment().subtract(9, 'days').toDate(),
-            starts: moment().subtract(8, 'days').toDate(),
-            end: moment().subtract(7, 'days').toDate(),
+            application_starts: moment().subtract(20, 'days').toDate(),
+            application_ends: moment().subtract(19, 'days').toDate(),
+            starts: moment().subtract(18, 'days').toDate(),
+            end: moment().subtract(17, 'days').toDate(),
         });
         await generator.createEvent({
             status: 'published',
@@ -423,7 +423,7 @@ describe('Events listing', () => {
             end: moment().subtract(2, 'days').toDate(),
         });
 
-        const ends = moment().subtract(5, 'days').toISOString();
+        const ends = moment().subtract(10, 'days').toISOString();
 
         const res = await request({
             uri: '/recents?ends=' + ends,
@@ -435,6 +435,6 @@ describe('Events listing', () => {
         expect(res.body.success).toEqual(true);
         expect(res.body).toHaveProperty('data');
         expect(res.body.data.length).toEqual(1);
-        expect(res.body.data[0].latest_event).toEqual(previousEvent.starts);
+        expect(res.body.data[0].latest_event).toEqual(previousEvent.starts.toString());
     });
 });
