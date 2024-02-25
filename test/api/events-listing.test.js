@@ -381,7 +381,7 @@ describe('Events listing', () => {
             application_starts: moment().subtract(10, 'days').toDate(),
             application_ends: moment().subtract(9, 'days').toDate(),
             starts: moment().subtract(8, 'days').toDate(),
-            end: moment().subtract(7, 'days').toDate(),
+            ends: moment().subtract(7, 'days').toDate(),
         });
         const mostRecentEvent = await generator.createEvent({
             status: 'published',
@@ -389,7 +389,7 @@ describe('Events listing', () => {
             application_starts: moment().subtract(5, 'days').toDate(),
             application_ends: moment().subtract(4, 'days').toDate(),
             starts: moment().subtract(3, 'days').toDate(),
-            end: moment().subtract(2, 'days').toDate(),
+            ends: moment().subtract(2, 'days').toDate(),
         });
 
         const res = await request({
@@ -412,7 +412,7 @@ describe('Events listing', () => {
             application_starts: moment().subtract(20, 'days').toDate(),
             application_ends: moment().subtract(19, 'days').toDate(),
             starts: moment().subtract(18, 'days').toDate(),
-            end: moment().subtract(17, 'days').toDate(),
+            ends: moment().subtract(17, 'days').toDate(),
         });
         await generator.createEvent({
             status: 'published',
@@ -420,7 +420,7 @@ describe('Events listing', () => {
             application_starts: moment().subtract(5, 'days').toDate(),
             application_ends: moment().subtract(4, 'days').toDate(),
             starts: moment().subtract(3, 'days').toDate(),
-            end: moment().subtract(2, 'days').toDate(),
+            ends: moment().subtract(2, 'days').toDate(),
         });
 
         const ends = moment().subtract(10, 'days').toISOString();
