@@ -402,7 +402,7 @@ describe('Events listing', () => {
         expect(res.body.success).toEqual(true);
         expect(res.body).toHaveProperty('data');
         expect(res.body.data.length).toEqual(1);
-        expect(res.body.data[0].starts).toEqual(mostRecentEvent.starts);
+        expect(res.body.data[0].latest_event).toEqual(mostRecentEvent.starts);
     });
 
     it('should not list most recent events in the future', async () => {
@@ -435,6 +435,6 @@ describe('Events listing', () => {
         expect(res.body.success).toEqual(true);
         expect(res.body).toHaveProperty('data');
         expect(res.body.data.length).toEqual(1);
-        expect(res.body.data[0].starts).toEqual(previousEvent.starts);
+        expect(res.body.data[0].latest_event).toEqual(previousEvent.starts);
     });
 });
