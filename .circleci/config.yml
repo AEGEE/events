@@ -237,6 +237,7 @@ workflows:
           filters:
             branches:
               ignore: stable
+      - db:recreate
   test:
     jobs:
       - test
