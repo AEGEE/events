@@ -20,7 +20,7 @@ async function createEvents() {
         name: 'Published Event With A Long Title That Does Not Really Make Sense 2: The Sequel Event To A Long Tradition',
         url: 'published-long-title',
         description: 'This is a published event with a long title.\n## This is a markdown header\nAnd this is **highlighted**',
-        application_starts: moment.subtract(2, 'weeks').toDate(),
+        application_starts: moment().subtract(2, 'weeks').toDate(),
         application_ends: moment().subtract(1, 'week').toDate(),
         starts: moment().add(2, 'weeks').toDate(),
         ends: moment().add(3, 'weeks').toDate(),
@@ -41,12 +41,12 @@ async function createEvents() {
 
     events.publishedSingleDayEvent = await Event.create({
         name: 'Published Single Day Event',
-        url: 'published-single-day=event',
+        url: 'published-single-day-event',
         description: 'This is a published event that only takes place during a single day.',
         application_starts: new Date(),
         application_ends: moment().add(1, 'week').toDate(),
         starts: moment().add(2, 'weeks').toDate(),
-        ends: moment().add(2, 'weeks').toDate(),
+        ends: moment().add(2, 'weeks').add(1, 'hour').toDate(),
         fee: 50.00,
         organizing_bodies: [{ body_id: 1, body_name: 'AEGEE-Antenna' }],
         locations: [{ name: 'Location', position: { lat: 50.8503396, lng: 4.3517103 } }],
@@ -61,9 +61,9 @@ async function createEvents() {
     });
 
     events.publishedEventWithoutFee = await Event.create({
-        name: 'Published Event',
-        url: 'published-event',
-        description: 'This is a published event.',
+        name: 'Published Event Without Fee',
+        url: 'published-event-without-fee',
+        description: 'This is a published event without a fee.',
         application_starts: moment().add(5, 'days').toDate(),
         application_ends: moment().add(1, 'week').toDate(),
         starts: moment().add(2, 'weeks').toDate(),
