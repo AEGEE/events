@@ -98,13 +98,7 @@ const Event = sequelize.define(
         },
         fee: {
             type: Sequelize.DECIMAL,
-            allowNull: false,
-            defaultValue: 0,
-            validate: {
-                notEmpty: { msg: 'Event fee should be set.' },
-                isNumeric: { msg: 'Event fee should be valid.' },
-                min: { args: [0], msg: 'Event fee cannot be negative' }
-            }
+            allowNull: true,
         },
         optional_fee: {
             type: Sequelize.DECIMAL,
@@ -151,7 +145,7 @@ const Event = sequelize.define(
         },
         locations: {
             type: Sequelize.JSONB,
-            allowNull: false,
+            allowNull: true,
             defaultValue: [],
             validate: {
                 isValid(value) {
@@ -358,27 +352,33 @@ const Event = sequelize.define(
         },
         meals_per_day: {
             type: Sequelize.INTEGER,
-            allowNull: false,
-            defaultValue: 0,
-            validate: {
-                isNumeric: { msg: 'Number of meals per day should be valid.' },
-                min: { args: [0], msg: 'Number of meals per day cannot be negative' },
-                max: { args: [4], msg: 'You cannot offer more than 4 meals per day' },
-            },
+            allowNull: true
         },
         vegetarian: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
-            defaultValue: false,
+            defaultValue: false
         },
         accommodation_type: {
             type: Sequelize.STRING,
+            allowNull: true
+        },
+        method: {
+            type: Sequelize.ENUM('in person', 'online'),
             allowNull: false,
-            defaultValue: '',
+            defaultValue: 'in person',
             validate: {
-                notEmpty: { msg: 'The type of accommodation should be set. Use "none" if you do not provide any' },
+                isIn: {
+                    args: [['in person', 'online']],
+                    msh: 'Event method should be one of these: "in person", "online".'
+                }
             }
         },
+        is_european_event: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
+        }
     },
     {
         underscored: true,
@@ -386,8 +386,41 @@ const Event = sequelize.define(
         createdAt: 'created_at',
         updatedAt: 'updated_at',
         validate: {
+            everything_set_for_in_person_events() {
+                if (this.method === 'online') {
+                    return;
+                }
+
+                if (typeof this.fee !== 'number') {
+                    throw new Error('Event fee should be valid.');
+                }
+                if (this.fee === null || this.fee === undefined) {
+                    throw new Error('Event fee should be set.');
+                }
+                if (this.fee < 0) {
+                    throw new Error('Event fee cannot be negative.');
+                }
+
+                if (this.locations.length === 0) {
+                    throw new Error('Locations should be set.')
+                }
+
+                if (typeof this.meals_per_day !== 'number') {
+                    throw new Error('Number of meals per day should be valid.');
+                }
+                if (this.meals_per_day < 0) {
+                    throw new Error('Number of meals per day cannot be negative.');
+                }
+                if (this.meals_per_day > 4) {
+                    throw new Error('You cannot offer more than 4 meals per day.');
+                }
+
+                if (this.accommodation_type.trim().length === 0) {
+                    throw new Error('The type of accommodation should be set. Use "none" if you do not provide any.');
+                }
+            },
             is_budget_set() {
-                if (this.status === 'draft') {
+                if (this.status === 'draft' || this.method === 'online') {
                     return;
                 }
 
