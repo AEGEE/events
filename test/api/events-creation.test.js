@@ -104,7 +104,6 @@ describe('Events creation', () => {
         expect(res.body.data).toHaveProperty('organizers');
         expect(res.body.data).toHaveProperty('method');
 
-
         // Check auto-filled fields
         expect(res.body.data.status).toEqual('draft');
         expect(res.body.data.application_status).toEqual('closed');
@@ -796,7 +795,7 @@ describe('Events creation', () => {
     });
 
     it('should return 422 if fee is negative', async () => {
-        const event = generator.genereteEvent({ fee: -5 });
+        const event = generator.generateEvent({ fee: -5 });
         event.body_id = user.bodies[0].id;
 
         const res = await request({

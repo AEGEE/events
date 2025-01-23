@@ -453,4 +453,10 @@ Event.beforeValidate(async (event) => {
     }
 });
 
+Event.beforeCreate(async (event) => {
+    if (event.method === 'online') {
+        event.is_european_event = false;
+    }
+});
+
 module.exports = Event;
