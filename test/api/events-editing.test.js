@@ -199,7 +199,7 @@ describe('Events editing', () => {
         });
 
         expect(res.statusCode).toEqual(200);
-        
+
         const response = await request({
             uri: '/single/' + event.id,
             method: 'GET',
@@ -208,7 +208,7 @@ describe('Events editing', () => {
 
         expect(response.statusCode).toEqual(200);
         expect(response.body).toHaveProperty('data');
-        expect(response.body.data.is_europea_event).toEqual(true);
+        expect(response.body.data.is_european_event).toEqual(true);
     });
 
     it('should fail setting European Event status if no permissions', async () => {
@@ -219,7 +219,7 @@ describe('Events editing', () => {
             method: 'PUT',
             headers: { 'X-Auth-Token': 'blablabla' },
             body: {
-                is_europea_event: false,
+                is_european_event: false,
             }
         });
 
@@ -234,7 +234,7 @@ describe('Events editing', () => {
             method: 'PUT',
             headers: { 'X-Auth-Token': 'blablabla' },
             body: {
-                is_europea_event: 'false',
+                is_european_event: 'false',
             }
         });
 
@@ -248,11 +248,11 @@ describe('Events editing', () => {
             method: 'PUT',
             headers: { 'X-Auth-Token': 'blablabla' },
             body: {
-                is_europea_event: false,
+                is_european_event: false,
             }
         });
 
-        expext(res.statusCode).toEqual(200);
+        expect(res.statusCode).toEqual(200);
         expect(res.body.success).toEqual(true);
         expect(res.body.message).toEqual('Successfully changed European Event status');
     });
