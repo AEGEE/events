@@ -186,4 +186,74 @@ describe('Events editing', () => {
         expect(res.body).toHaveProperty('data');
         expect(res.body.data.organizing_bodies[0].body_name).toEqual(user.bodies[0].name);
     });
+
+    it('should not change the European Event status on normal edit request', async () => {
+        const res = await request({
+            uri: '/single/' + event.id,
+            method: 'PUT',
+            headers: { 'X-Auth-Token': 'blablabla' },
+            body: {
+                description: 'some new description',
+                is_europea_event: false
+            }
+        });
+
+        expect(res.statusCode).toEqual(200);
+        
+        const response = await request({
+            uri: '/single/' + event.id,
+            method: 'GET',
+            headers: { 'X-Auth-Token': 'blablabla' }
+        });
+
+        expect(response.statusCode).toEqual(200);
+        expect(response.body).toHaveProperty('data');
+        expect(response.body.data.is_europea_event).toEqual(true);
+    });
+
+    it('should fail setting European Event status if no permissions', async () => {
+        mock.mockAll({ mainPermissions: { noPermissions: true } });
+
+        const res = await request({
+            uri: '/single/' + event.id + '/status/european_event',
+            method: 'PUT',
+            headers: { 'X-Auth-Token': 'blablabla' },
+            body: {
+                is_europea_event: false,
+            }
+        });
+
+        expect(res.statusCode).toEqual(403);
+        expect(res.body.success).toEqual(false);
+        expect(res.body).toHaveProperty('message');
+    });
+
+    it('should return a validation error on malformed body for changing European Event status', async () => {
+        const res = await request({
+            uri: '/single/' + event.id + '/status/european_event',
+            method: 'PUT',
+            headers: { 'X-Auth-Token': 'blablabla' },
+            body: {
+                is_europea_event: 'false',
+            }
+        });
+
+        expect(res.body).toHaveProperty('errors');
+        expect(res.body.errors).toHaveProperty('is_european_event');
+    });
+
+    it('should succeed changing European Event status on sane request', async () => {
+        const res = await request({
+            uri: '/single/' + event.id + '/status/european_event',
+            method: 'PUT',
+            headers: { 'X-Auth-Token': 'blablabla' },
+            body: {
+                is_europea_event: false,
+            }
+        });
+
+        expext(res.statusCode).toEqual(200);
+        expect(res.body.success).toEqual(true);
+        expect(res.body.message).toEqual('Successfully changed European Event status');
+    });
 });
