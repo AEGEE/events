@@ -145,7 +145,7 @@ const Event = sequelize.define(
         },
         locations: {
             type: Sequelize.JSONB,
-            allowNull: true,
+            allowNull: false,
             defaultValue: [],
             validate: {
                 isValid(value) {
@@ -399,10 +399,6 @@ const Event = sequelize.define(
                 }
                 if (this.fee < 0) {
                     throw new Error('Event fee cannot be negative.');
-                }
-
-                if (this.locations.length === 0) {
-                    throw new Error('Locations should be set.')
                 }
 
                 if (typeof this.meals_per_day !== 'number') {

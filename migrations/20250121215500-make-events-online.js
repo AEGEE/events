@@ -7,11 +7,6 @@ module.exports = {
         );
         await queryInterface.changeColumn(
             'events',
-            'locations',
-            { type: Sequelize.JSONB, allowNull: true, defaultValue: [] }
-        );
-        await queryInterface.changeColumn(
-            'events',
             'meals_per_day',
             { type: Sequelize.INTEGER, allowNull: true }
         );
@@ -36,11 +31,6 @@ module.exports = {
             'events',
             'fee',
             { type: Sequelize.DECIMAL, allowNull: false, defaultValue: 0 }
-        );
-        await queryInterface.changeColumn(
-            'events',
-            'locations',
-            { type: Sequelize.JSONB, allowNull: false, defaultValue: [] }
         );
         await queryInterface.changeColumn(
             'events',
