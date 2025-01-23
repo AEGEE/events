@@ -394,9 +394,6 @@ const Event = sequelize.define(
                 if (typeof this.fee !== 'number') {
                     throw new Error('Event fee should be valid.');
                 }
-                if (this.fee === null || this.fee === undefined) {
-                    throw new Error('Event fee should be set.');
-                }
                 if (this.fee < 0) {
                     throw new Error('Event fee cannot be negative.');
                 }
