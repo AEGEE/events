@@ -448,6 +448,12 @@ const Event = sequelize.define(
 Event.beforeValidate(async (event) => {
     // skipping these fields if they are unset, will catch it later.
     if (typeof event.url === 'string') event.url = event.url.toLowerCase().trim();
+
+    if (event.method === 'in person') {
+        if (event.fee === null || event.fee === undefined) event.fee = 0;
+        if (event.meals_per_day === null || event.meals_per_day === undefined) event.meals_per_day = 0;
+        if (event.accommodation_type === null || event.accommodation_type === undefined) event.accommodation_type = '';
+    }
 });
 
 module.exports = Event;

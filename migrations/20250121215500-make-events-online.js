@@ -45,4 +45,4 @@ module.exports = {
         await queryInterface.removeColumn('events', 'method');
         await queryInterface.removeColumn('events', 'is_european_event');
     }
-}
+};
