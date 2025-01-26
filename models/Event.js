@@ -2,6 +2,12 @@ const moment = require('moment');
 
 const { Sequelize, sequelize } = require('../lib/sequelize');
 
+function isBoolean(val) {
+    if (typeof val !== 'boolean') {
+        throw new Error('The value should be true or false.');
+    }
+}
+
 const Event = sequelize.define(
     'event',
     {
@@ -214,7 +220,10 @@ const Event = sequelize.define(
         deleted: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: false,
+            validate: {
+                isBoolean
+            }
         },
         organizers: {
             type: Sequelize.JSONB,
@@ -357,7 +366,10 @@ const Event = sequelize.define(
         vegetarian: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
-            defaultValue: false
+            defaultValue: false,
+            validate: {
+                isBoolean
+            }
         },
         accommodation_type: {
             type: Sequelize.STRING,
@@ -377,7 +389,10 @@ const Event = sequelize.define(
         is_european_event: {
             type: Sequelize.BOOLEAN,
             allowNull: false,
-            defaultValue: true
+            defaultValue: true,
+            validate: {
+                isBoolean
+            }
         }
     },
     {
