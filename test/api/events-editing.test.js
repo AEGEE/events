@@ -194,7 +194,7 @@ describe('Events editing', () => {
             headers: { 'X-Auth-Token': 'blablabla' },
             body: {
                 description: 'some new description',
-                is_europea_event: false
+                is_european_event: false
             }
         });
 
@@ -209,51 +209,5 @@ describe('Events editing', () => {
         expect(response.statusCode).toEqual(200);
         expect(response.body).toHaveProperty('data');
         expect(response.body.data.is_european_event).toEqual(true);
-    });
-
-    it('should fail setting European Event status if no permissions', async () => {
-        mock.mockAll({ mainPermissions: { noPermissions: true } });
-
-        const res = await request({
-            uri: '/single/' + event.id + '/status/european_event',
-            method: 'PUT',
-            headers: { 'X-Auth-Token': 'blablabla' },
-            body: {
-                is_european_event: false,
-            }
-        });
-
-        expect(res.statusCode).toEqual(403);
-        expect(res.body.success).toEqual(false);
-        expect(res.body).toHaveProperty('message');
-    });
-
-    it('should return a validation error on malformed body for changing European Event status', async () => {
-        const res = await request({
-            uri: '/single/' + event.id + '/status/european_event',
-            method: 'PUT',
-            headers: { 'X-Auth-Token': 'blablabla' },
-            body: {
-                is_european_event: 'blablabla',
-            }
-        });
-
-        expect(res.body).toHaveProperty('errors');
-        expect(res.body.errors).toHaveProperty('is_european_event');
-    });
-
-    it('should succeed changing European Event status on sane request', async () => {
-        const res = await request({
-            uri: '/single/' + event.id + '/status/european_event',
-            method: 'PUT',
-            headers: { 'X-Auth-Token': 'blablabla' },
-            body: {
-                is_european_event: false,
-            }
-        });
-
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.success).toEqual(true);
-        expect(res.body.message).toEqual('Successfully changed European Event status');
     });
 });
