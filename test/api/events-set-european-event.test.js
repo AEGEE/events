@@ -66,7 +66,7 @@ describe('Events set European Event', () => {
         });
 
         expect(res.statusCode).toEqual(200);
-        expect(res.body.success).toEqual(false);
+        expect(res.body.success).toEqual(true);
         expect(res.body.message).toEqual(
             'Successfully changed European Event status'
         );
