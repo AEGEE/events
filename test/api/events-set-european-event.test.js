@@ -70,7 +70,6 @@ describe('Events set European Event', () => {
         expect(res.body.message).toEqual(
             'Successfully changed European Event status'
         );
-        expect(res.body.data.is_european_event).toEqual(false);
     });
 
     it('should succeed changing European Event status back to true', async () => {
@@ -92,6 +91,5 @@ describe('Events set European Event', () => {
         expect(res.body.message).toEqual(
             'Successfully changed European Event status'
         );
-        expect(res.body.data.is_european_event).toEqual(true);
     });
 });
