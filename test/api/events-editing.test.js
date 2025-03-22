@@ -228,6 +228,20 @@ describe('Events editing', () => {
         expect(res.body).toHaveProperty('message');
     });
 
+    it('should return a validation error on malformed body for changing European Event status', async () => {
+        const res = await request({
+            uri: '/single/' + event.id + '/status/european_event',
+            method: 'PUT',
+            headers: { 'X-Auth-Token': 'blablabla' },
+            body: {
+                is_european_event: 'blablabla',
+            }
+        });
+
+        expect(res.body).toHaveProperty('errors');
+        expect(res.body.errors).toHaveProperty('is_european_event');
+    });
+
     it('should succeed changing European Event status on sane request', async () => {
         const res = await request({
             uri: '/single/' + event.id + '/status/european_event',
