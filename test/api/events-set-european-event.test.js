@@ -61,6 +61,28 @@ describe('Events set European Event', () => {
             method: 'PUT',
             headers: { 'X-Auth-Token': 'blablabla' },
             body: {
+                is_european_event: false,
+            },
+        });
+
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.success).toEqual(false);
+        expect(res.body.message).toEqual(
+            'Successfully changed European Event status'
+        );
+        expect(res.body.data.is_european_event).toEqual(false);
+    });
+
+    it('should succeed changing European Event status back to true', async () => {
+        const europeanEvent = await generator.createEvent({
+            is_european_event: false,
+        });
+
+        const res = await request({
+            uri: '/single/' + europeanEvent.id + '/status/european_event',
+            method: 'PUT',
+            headers: { 'X-Auth-Token': 'blablabla' },
+            body: {
                 is_european_event: true,
             },
         });
@@ -70,26 +92,6 @@ describe('Events set European Event', () => {
         expect(res.body.message).toEqual(
             'Successfully changed European Event status'
         );
-    });
-
-    it('should succeed changing European Event status back to false', async () => {
-        const europeanEvent = await generator.createEvent({
-            is_european_event: true,
-        });
-
-        const res = await request({
-            uri: '/single/' + europeanEvent.id + '/status/european_event',
-            method: 'PUT',
-            headers: { 'X-Auth-Token': 'blablabla' },
-            body: {
-                is_european_event: false,
-            },
-        });
-
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.success).toEqual(true);
-        expect(res.body.message).toEqual(
-            'Successfully changed European Event status'
-        );
+        expect(res.body.data.is_european_event).toEqual(true);
     });
 });
