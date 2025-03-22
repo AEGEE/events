@@ -194,7 +194,7 @@ describe('Events editing', () => {
             headers: { 'X-Auth-Token': 'blablabla' },
             body: {
                 description: 'some new description',
-                is_european_event: false
+                is_european_event: true
             }
         });
 
@@ -208,6 +208,6 @@ describe('Events editing', () => {
 
         expect(response.statusCode).toEqual(200);
         expect(response.body).toHaveProperty('data');
-        expect(response.body.data.is_european_event).toEqual(true);
+        expect(response.body.data.is_european_event).toEqual(false);
     });
 });
