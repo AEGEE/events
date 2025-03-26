@@ -105,6 +105,11 @@ const Event = sequelize.define(
         fee: {
             type: Sequelize.DECIMAL,
             allowNull: true,
+            defaultValue: 0,
+            validate: {
+                isNumeric: { msg: 'Fee should be valid.' },
+                min: { args: [0], msg: 'Fee cannot be negative' },
+            }
         },
         optional_fee: {
             type: Sequelize.DECIMAL,
@@ -361,7 +366,13 @@ const Event = sequelize.define(
         },
         meals_per_day: {
             type: Sequelize.INTEGER,
-            allowNull: true
+            allowNull: true,
+            defaultValue: 0,
+            validate: {
+                isNumeric: { msg: 'Number of meals per day should be valid.' },
+                min: { args: [0], msg: 'Number of meals per day cannot be negative.' },
+                max: { args: [4], msg: 'You cannot offer more than 4 meals per day.' }
+            }
         },
         vegetarian: {
             type: Sequelize.BOOLEAN,
@@ -404,23 +415,6 @@ const Event = sequelize.define(
             everything_set_for_in_person_events() {
                 if (this.method === 'online') {
                     return;
-                }
-
-                if (typeof this.fee !== 'number') {
-                    throw new Error('Event fee should be valid.');
-                }
-                if (this.fee < 0) {
-                    throw new Error('Event fee cannot be negative.');
-                }
-
-                if (typeof this.meals_per_day !== 'number') {
-                    throw new Error('Number of meals per day should be valid.');
-                }
-                if (this.meals_per_day < 0) {
-                    throw new Error('Number of meals per day cannot be negative.');
-                }
-                if (this.meals_per_day > 4) {
-                    throw new Error('You cannot offer more than 4 meals per day.');
                 }
 
                 if (this.accommodation_type.trim().length === 0) {
