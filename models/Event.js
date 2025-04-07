@@ -384,7 +384,8 @@ const Event = sequelize.define(
         },
         accommodation_type: {
             type: Sequelize.STRING,
-            allowNull: true
+            allowNull: true,
+            defaultValue: ''
         },
         method: {
             type: Sequelize.ENUM('in person', 'online'),
@@ -393,7 +394,7 @@ const Event = sequelize.define(
             validate: {
                 isIn: {
                     args: [['in person', 'online']],
-                    msh: 'Event method should be one of these: "in person", "online".'
+                    msg: 'Event method should be one of these: "in person", "online".'
                 }
             }
         },
