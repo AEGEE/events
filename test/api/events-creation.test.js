@@ -202,8 +202,7 @@ describe('Events creation', () => {
         expect(res.body.data.status).not.toEqual('published');
     });
 
-    // TODO: Update this test to work with the new validation of in person events
-    it.skip('should return validation errors on malformed / POST', async () => {
+    it('should return validation errors on malformed / POST', async () => {
         const res = await request({
             uri: '/',
             headers: { 'X-Auth-Token': 'foobar' },
