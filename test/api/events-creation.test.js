@@ -216,6 +216,7 @@ describe('Events creation', () => {
                 fee: -150,
                 meals_per_day: 5,
                 optional_fee: 'string',
+                accommodation_type: ''
             }
         });
 
@@ -778,7 +779,7 @@ describe('Events creation', () => {
     });
 
     it('should return 422 if fee is not a number', async () => {
-        const event = generator.generateEvent({ fee: '5' });
+        const event = generator.generateEvent({ fee: 'blabla' });
         event.body_id = user.bodies[0].id;
 
         const res = await request({
@@ -810,7 +811,7 @@ describe('Events creation', () => {
     });
 
     it('should return 422 if meals per day is not a number', async () => {
-        const event = generator.generateEvent({ meals_per_day: '2' });
+        const event = generator.generateEvent({ meals_per_day: 'blabla' });
         event.body_id = user.bodies[0].id;
 
         const res = await request({
@@ -825,7 +826,7 @@ describe('Events creation', () => {
         expect(res.body).toHaveProperty('errors');
     });
 
-    it('should return 422 if meals per day is not negative', async () => {
+    it('should return 422 if meals per day is negative', async () => {
         const event = generator.generateEvent({ meals_per_day: -1 });
         event.body_id = user.bodies[0].id;
 
