@@ -215,8 +215,7 @@ describe('Events creation', () => {
                 organizing_bodies: [{ body_id: user.bodies[0].id }],
                 fee: -150,
                 meals_per_day: 5,
-                optional_fee: 'string',
-                accommodation_type: ''
+                optional_fee: 'string'
             }
         });
 
