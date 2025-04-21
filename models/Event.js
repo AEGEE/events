@@ -418,6 +418,10 @@ const Event = sequelize.define(
                     return;
                 }
 
+                if (typeof this.accommodation_type !== 'string') {
+                    throw new Error('Accommodation type should be a string.');
+                }
+
                 if (this.accommodation_type.trim().length === 0) {
                     throw new Error('The type of accommodation should be set. Use "none" if you do not provide any.');
                 }

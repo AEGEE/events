@@ -231,7 +231,7 @@ describe('Events creation', () => {
         expect(res.body.errors).toHaveProperty('application_starts');
         expect(res.body.errors).toHaveProperty('optional_fee');
         expect(res.body.errors).toHaveProperty('meals_per_day');
-        expect(res.body.errors).toHaveProperty('accommodation_type');
+        expect(res.body.errors).toHaveProperty('everything_set_for_in_person_events');
     });
 
     it('should return 422 if the locations is not an array', async () => {
