@@ -120,6 +120,8 @@ describe('Events creation', () => {
             body: {
                 name: 'Develop Yourself 4',
                 description: 'Test',
+                application_starts: '2017-12-03 15:00',
+                application_ends: '2017-12-05 15:00',
                 starts: '2017-12-11 15:00',
                 ends: '2017-12-14 12:00',
                 type: 'cultural',
