@@ -110,6 +110,7 @@ describe('Events creation', () => {
         expect(res.body.data.application_status).toEqual('closed');
         expect(res.body.data.questions.length).toEqual(0);
         expect(res.body.data.is_european_event).toEqual(false);
+        expect(res.body.data.has_applications).toEqual(true);
     });
 
     it('should create a new online event without application process on minimal sane / POST', async () => {
