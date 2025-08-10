@@ -405,6 +405,14 @@ const Event = sequelize.define(
             validate: {
                 isBoolean
             }
+        },
+        has_applications: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+            validate: {
+                isBoolean
+            }
         }
     },
     {
@@ -424,6 +432,10 @@ const Event = sequelize.define(
 
                 if (this.accommodation_type.trim().length === 0) {
                     throw new Error('The type of accommodation should be set. Use "none" if you do not provide any.');
+                }
+
+                if (this.has_applications === false) {
+                    throw new Error('An in person event should have the option for people to apply.');
                 }
             },
             is_budget_set() {
@@ -464,6 +476,7 @@ Event.beforeValidate(async (event) => {
         if (event.fee === null || event.fee === undefined) event.fee = 0;
         if (event.meals_per_day === null || event.meals_per_day === undefined) event.meals_per_day = 0;
         if (event.accommodation_type === null || event.accommodation_type === undefined) event.accommodation_type = '';
+        event.has_applications = true;
     }
 });
 
