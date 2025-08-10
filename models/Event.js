@@ -433,10 +433,6 @@ const Event = sequelize.define(
                 if (this.accommodation_type.trim().length === 0) {
                     throw new Error('The type of accommodation should be set. Use "none" if you do not provide any.');
                 }
-
-                if (this.has_applications === false) {
-                    throw new Error('An in person event should have the option for people to apply.');
-                }
             },
             is_budget_set() {
                 if (this.status === 'draft' || this.method === 'online') {
