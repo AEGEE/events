@@ -122,7 +122,7 @@ const Event = sequelize.define(
         },
         organizing_bodies: {
             type: Sequelize.JSONB,
-            allowNull: false,
+            allowNull: true,
             defaultValue: [],
             validate: {
                 isValid(value) {
@@ -130,7 +130,7 @@ const Event = sequelize.define(
                         throw new Error('Organizing bodies should be an array.');
                     }
 
-                    if (value.length === 0) {
+                    if (value.length === 0 && !this.is_external_event) {
                         throw new Error('At least 1 organizing body should be presented.');
                     }
 
@@ -413,6 +413,47 @@ const Event = sequelize.define(
             validate: {
                 isBoolean
             }
+        },
+        is_external_event: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            validate: {
+                isBoolean
+            }
+        },
+        external_organisers: {
+            type: Sequelize.STRING,
+            allowNull: true,
+            validate: {
+                isRequiredIfExternalEvent(value) {
+                    if (this.is_external_event && (!value || value.trim().length === 0)) {
+                        throw new Error('External organisers must be set if this is an external event.');
+                    }
+                },
+                isNullIfNotExternalEvent(value) {
+                    if (!this.is_external_event && (value && value.trim().length > 0)) {
+                        throw new Error('External organisers must be null if this is not an external event.');
+                    }
+                }
+            }
+        },
+        external_application_url: {
+            type: Sequelize.STRING,
+            allowNull: true,
+            validate: {
+                isUrl: { msg: 'External application URL must be a valid URL.' },
+                isRequiredIfExternalEventWithApplications(value) {
+                    if (this.is_external_event && this.has_applications && (!value || value.trim().length === 0)) {
+                        throw new Error('External application URL must be set if this is an external event with applications.');
+                    }
+                },
+                isNullIfNotExternalEvent(value) {
+                    if (!this.is_external_event && (value && value.trim().length > 0)) {
+                        throw new Error('External application URL must be null if this is not an external event.');
+                    }
+                }
+            }
         }
     },
     {
@@ -435,7 +476,7 @@ const Event = sequelize.define(
                 }
             },
             is_budget_set() {
-                if (this.status === 'draft' || this.method === 'online') {
+                if (this.status === 'draft' || this.method === 'online' || this.is_external_event) {
                     return;
                 }
 
@@ -448,7 +489,7 @@ const Event = sequelize.define(
                 }
             },
             is_programme_set() {
-                if (this.status === 'draft') {
+                if (this.status === 'draft' || this.is_external_event) {
                     return;
                 }
 
@@ -477,8 +518,13 @@ Event.beforeValidate(async (event) => {
 });
 
 Event.beforeCreate(async (event) => {
-    if (event.method === 'online') {
+    if (event.method === 'online' || event.is_external_event) {
         event.is_european_event = false;
+    }
+
+    if (!event.is_external_event) {
+        event.external_organisers = null;
+        event.external_application_url = null;
     }
 });
 
